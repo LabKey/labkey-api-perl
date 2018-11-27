@@ -1,11 +1,10 @@
 Build.PL
 Changes
-lib/LabKey/Query.pm
+src/lib/LabKey/Query.pm
 LICENSE
 MANIFEST
 MANIFEST.SKIP
 META.yml
 README
 t/001_load.t
-Todo
 META.json
