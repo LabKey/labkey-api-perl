@@ -2,7 +2,7 @@
 
 #this script serves as a simple test of the API
 
-require 'LabKey/Query/lib/LabKey/Query.pm';
+require 'lib/LabKey/Query.pm';
 #use LabKey::Query;
 use Data::Dumper;
 
