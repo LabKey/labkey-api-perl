@@ -634,7 +634,11 @@ sub _getServerContext {
 		$$ctx{debug} = 1;
 	}
 
-	$$ctx{userAgent}->default_header('X-LABKEY-CSRF', _fetchCSRF($ctx));
+	my $csrfHeader = "X-LABKEY-CSRF";
+
+	if (!$$ctx{userAgent}->default_header($csrfHeader)) {
+		$$ctx{userAgent}->default_header($csrfHeader => _fetchCSRF($ctx));
+	}
 
 	return $ctx;
 }
