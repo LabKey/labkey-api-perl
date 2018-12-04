@@ -1,5 +1,6 @@
 #!/usr/bin/perl
-
+use strict;
+use warnings;
 #this script serves as a simple test of the API
 
 require 'lib/LabKey/Query.pm';
