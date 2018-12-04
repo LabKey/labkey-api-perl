@@ -150,12 +150,9 @@ sub selectRows {
 
 	my $data = {
         'schemaName'      => $args{'-schemaName'},
-        'query.queryName' => $args{'-queryName'}
+        'query.queryName' => $args{'-queryName'},
+		'apiVersion'      => $args{'-requiredVersion'} || 9.1
     };
-
-	if ($args{'-requiredVersion'}) {
-		$$data{'apiVersion'} = $args{'-requiredVersion'};
-	}
 
 	foreach (@{$args{-filterArray}}) {
         $$data{'query.' . @{$_}[0] . '~' . @{$_}[1]} = @{$_}[2];
@@ -166,8 +163,8 @@ sub selectRows {
 	}
 	
 	foreach ('viewName', 'offset', 'sort', 'maxRows', 'columns', 'containerFilterName') {
-		if ($args{'-'.$_}) {
-            $$data{'query.'.$_} = $args{'-'.$_};
+		if ($args{'-' . $_}) {
+            $$data{'query.' . $_} = $args{'-' . $_};
 		}		
 	}	
 	
@@ -370,8 +367,8 @@ sub executeSql {
 	};
 	
 	foreach ('offset', 'sort', 'maxRows', 'containerFilterName') {
-		if ($args{'-'.$_}) {
-			$$data{$_} = $args{'-'.$_};
+		if ($args{'-' . $_}) {
+			$$data{$_} = $args{'-' . $_};
 		}		
 	}
 		
