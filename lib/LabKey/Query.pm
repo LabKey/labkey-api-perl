@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-LabKey::Query
+LabKey::Query - For interacting with data in LabKey Server
 
 =head1 SYNOPSIS
 
