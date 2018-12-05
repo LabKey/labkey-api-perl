@@ -23,44 +23,18 @@ For interacting with data in LabKey Server
 This module is designed to simplify querying and manipulating data in LabKey Server.  It should more or less replicate the javascript APIs of the same names. 
 
 After the module is installed, if you need to login with a specific user you 
-will need to create a .netrc file in the home directory of the user
-running the perl script.  Documentation on .netrc can be found here:
-https://www.labkey.org/Documentation/wiki-page.view?name=netrc
+will need to create a L<.netrc|https://www.labkey.org/Documentation/wiki-page.view?name=netrc>
+file in the home directory of the user running the perl script.
 
 In API versions 0.08 and later, you can specify the param '-loginAsGuest'
 which will query the server without any credentials.  The server must permit 
 guest to that folder for this to work though.
 
-=head1 SEE ALSO
-
-The LabKey client APIs are described in greater detail here:
-https://www.labkey.org/Documentation/wiki-page.view?name=viewAPIs
-
-Support questions should be directed to the LabKey forum:
-https://www.labkey.org/home/Server/Forum/announcements-list.view
-
-=head1 AUTHOR 
-
-LabKey C<info@labkey.com>
-
-=head1 CONTRIBUTING
-
-Send comments, suggestions and bug reports to:
-
-L<https://www.labkey.org/home/developer/forum/project-start.view>
-
-
-=head1 COPYRIGHT
- 
-Copyright (c) 2010 Ben Bimber
-Copyright (c) 2011-2018 LabKey
-
-Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
-
 =cut
 
 package LabKey::Query;
 
+use warnings;
 use strict;
 use JSON;
 use Data::Dumper;
@@ -91,11 +65,13 @@ use URI;
 
 use vars qw($VERSION);
 
-our $VERSION = "1.05";
+our $VERSION = "1.06";
 
 
 
-=head1 selectRows()
+=head1 FUNCTIONS
+
+=head2 selectRows()
 
 selectRows() can be used to query data from LabKey server
 
@@ -132,11 +108,9 @@ The following are optional:
 	-useragent => an instance of LWP::UserAgent (if not provided, a new instance will be created)
 	-timeout => timeout in seconds (used when creating a new LWP::UserAgent)
 	
-NOTE: 
+=head3 NOTE
 
-- In version 1.0 and later of the perl API, the default result format is 9.1.  This is different from the LabKey JS, which defaults to the earlier format for legacy purposes.
-- The environment variable 'LABKEY_URL' can be used instead of supplying a '-baseUrl' param 
-- The environment variable 'LABKEY_NETRC' can be used to specify an alternate location of a netrc file, if not in the user's home directory.
+In version 1.0 and later of the perl API, the default result format is 9.1.  This is different from the LabKey JS, which defaults to the earlier format for legacy purposes.
 
 =cut
 
@@ -172,7 +146,7 @@ sub selectRows {
 }
 
 
-=head1 insertRows()
+=head2 insertRows()
 
 insertRows() can be used to insert records into a LabKey table
 
@@ -199,10 +173,6 @@ The following are optional:
 	-useragent => an instance of LWP::UserAgent (if not provided, a new instance will be created)
 	-timeout => timeout in seconds (used when creating a new LWP::UserAgent)
 
-NOTE:
-- The environment variable 'LABKEY_URL' can be used instead of supplying a '-baseUrl' param
-- The environment variable 'LABKEY_NETRC' can be used to specify an alternate location of a netrc file, if not in the user's home directory
-
 =cut
 
 sub insertRows {
@@ -223,7 +193,7 @@ sub insertRows {
 }
 
 
-=head1 updateRows()
+=head2 updateRows()
 
 updateRows() can be used to update records in a LabKey table
 
@@ -250,10 +220,6 @@ The following are optional:
 	-useragent => an instance of LWP::UserAgent (if not provided, a new instance will be created)
 	-timeout => timeout in seconds (used when creating a new LWP::UserAgent)
 
-NOTE:
-- The environment variable 'LABKEY_URL' can be used instead of supplying a '-baseUrl' param
-- The environment variable 'LABKEY_NETRC' can be used to specify an alternate location of a netrc file, if not in the user's home directory
-	 
 =cut
 
 sub updateRows {
@@ -274,7 +240,7 @@ sub updateRows {
 }
 
 
-=head1 deleteRows()
+=head2 deleteRows()
 
 deleteRows() can be used to delete records in a LabKey table
 
@@ -298,10 +264,6 @@ The following are optional:
 	-useragent => an instance of LWP::UserAgent (if not provided, a new instance will be created)
 	-timeout => timeout in seconds (used when creating a new LWP::UserAgent)
 
-NOTE:
-- The environment variable 'LABKEY_URL' can be used instead of supplying a '-baseUrl' param
-- The environment variable 'LABKEY_NETRC' can be used to specify an alternate location of a netrc file, if not in the user's home directory
-	 
 =cut
 
 sub deleteRows {
@@ -322,7 +284,7 @@ sub deleteRows {
 }
 
 
-=head1 executeSql()
+=head2 executeSql()
 
 executeSql() can be used to execute arbitrary SQL
 
@@ -347,10 +309,6 @@ The following are optional:
 	-useragent => an instance of LWP::UserAgent (if not provided, a new instance will be created)
 	-timeout => timeout in seconds (used when creating a new LWP::UserAgent)
 
-NOTE:
-- The environment variable 'LABKEY_URL' can be used instead of supplying a '-baseUrl' param
-- The environment variable 'LABKEY_NETRC' can be used to specify an alternate location of a netrc file, if not in the user's home directory
-	 
 =cut
 
 sub executeSql {
@@ -374,6 +332,7 @@ sub executeSql {
 		
 	return _postData($ctx, _buildURL($ctx, 'query', 'executeSql.api'), $data);
 }
+
 
 # NOTE: this code adapted from Net::Netrc module.  It was changed so alternate locations could be supplied for a .netrc file
 sub _readrc {
@@ -639,6 +598,48 @@ sub _getServerContext {
 
 	return $ctx;
 }
+
+=pod
+
+=head1 ENVIORNMENT VARIABLES
+
+=over 4
+
+=item *
+The 'LABKEY_URL' environment variable can be used instead of supplying a '-baseUrl' param.
+
+=item *
+The 'LABKEY_NETRC' environment variable can be used to specify an alternate location of a netrc file, if not in the user's home directory.
+
+=back
+
+=head1 AUTHOR
+
+LabKey C<info@labkey.com>
+
+=head1 CONTRIBUTING
+
+Send comments, suggestions and bug reports to:
+
+L<https://www.labkey.org/home/developer/forum/project-start.view>
+
+
+=head1 COPYRIGHT
+ 
+Copyright (c) 2010 Ben Bimber
+Copyright (c) 2011-2018 LabKey Corporation
+
+Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
+
+=head1 SEE ALSO
+
+The LabKey client APIs are described in greater detail here:
+https://www.labkey.org/Documentation/wiki-page.view?name=viewAPIs
+
+Support questions should be directed to the LabKey forum:
+https://www.labkey.org/home/Server/Forum/announcements-list.view
+
+=cut
 
 1;
 
