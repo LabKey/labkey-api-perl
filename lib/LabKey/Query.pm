@@ -629,6 +629,8 @@ L<https://www.labkey.org/home/developer/forum/project-start.view>
 Copyright (c) 2010 Ben Bimber
 Copyright (c) 2011-2018 LabKey Corporation
 
+=head1 LICENSE
+
 Licensed under the Apache License, Version 2.0: http://www.apache.org/licenses/LICENSE-2.0
 
 =head1 SEE ALSO
