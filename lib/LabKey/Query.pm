@@ -472,6 +472,7 @@ sub _postData {
 	my $json_obj = JSON->new->utf8->encode($data);
 
 	my $req = POST $url;
+	$req->content_length(length($json_obj));
 	$req->content_type('application/json');
 	$req->content($json_obj);
 	$req->authorization_basic($$ctx{auth}{'login'}, $$ctx{auth}{'password'});
