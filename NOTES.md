@@ -104,6 +104,13 @@ Commit, tag, push:
 
 Upload the distro using CPAN::Uploader
 ```sh
+> cpanm install CPAN::Uploader
 > cpan-upload LabKey-Query-v<version>.tar.gz --user labkey
 ```
+
+Fun sites:
+- [PAUSE](https://pause.perl.org/pause/authenquery)
+- [Kwalitee](https://cpants.cpanauthors.org/release/LABKEY/LabKey-Query-1.07)
+- [Testers](http://matrix.cpantesters.org/?dist=LabKey-Query)
+- [CPAN](https://metacpan.org/pod/LabKey::Query)
 
