@@ -4,4 +4,7 @@
 
 ^LabKey-Query-*
 
+# version control files that #!include_default misses
+^\.gitattributes
+
 #!include_default
