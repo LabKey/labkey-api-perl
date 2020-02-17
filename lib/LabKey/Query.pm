@@ -65,7 +65,7 @@ use URI;
 
 use vars qw($VERSION);
 
-our $VERSION = "1.06";
+our $VERSION = "1.07";
 
 
 
@@ -628,7 +628,7 @@ L<https://www.labkey.org/home/developer/forum/project-start.view>
 =head1 COPYRIGHT
  
 Copyright (c) 2010 Ben Bimber
-Copyright (c) 2011-2018 LabKey Corporation
+Copyright (c) 2011-2020 LabKey Corporation
 
 =head1 LICENSE
 
