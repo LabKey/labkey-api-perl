@@ -56,6 +56,77 @@ our $VERSION = "1.07";
 
 =head1 FUNCTIONS
 
+=head2 COMMON PARAMETERS
+
+All of the functions in C<LabKey::Query> support the parameters below.
+
+    LabKey::Query::selectRows(
+        ...,
+        # common required parameters
+        -baseUrl => 'http://labkey.com:8080/labkey/',
+        -containerPath => 'myFolder/',
+        -schemaName => 'lists',
+        -queryName => 'mid_tags',
+
+        # common optional parameters
+        -debug => 1,
+        -apiKey => 'session|...',
+        -loginAsGuest => 1,
+        -netrcFile => 'path/to/netrc',
+        -useragent => $ua,
+        -timeout => 300
+    );
+
+=over
+
+=item -baseUrl
+
+The URL of the LabKey Server including the context path.
+See also the environment variable C<LABKEY_URL>.
+
+=item -containerPath
+
+The container path where the request will be executed.
+
+=item -schemaName
+
+Name of a schema defined within the targeted container.
+
+=item -queryName
+
+Name of a query table associated with the chosen schema.
+
+=item -debug (optional)
+
+Produce verbose output
+
+=item -apiKey (optional)
+
+Use the apiKey value for authentication instead of using the netrc file.
+See also the environment variable C<LABKEY_APIKEY>. See the
+L<apikey|https://www.labkey.org/Documentation/wiki-page.view?name=apiKey>
+documentation for more information.
+
+=item -loginAsGuest (optional)
+
+When set, don't authenticate using the apiKey or credentials found in the
+netrc file.
+
+=item -netrcFile (optional)
+
+The location of a file to use in place of a .netrc file.  See also the
+environment variable C<LABKEY_NETRC>.
+
+=item -useragent (optional)
+
+An instance of L<LWP::UserAgent> (if not provided, a new instance will be created)
+
+=item -timeout (optional)
+
+Timeout in seconds (used when creating a new L<LWP::UserAgent>)
+
+=back
+
 =head2 selectRows()
 
 selectRows() can be used to query data from LabKey server
@@ -69,29 +140,30 @@ The following are the minimum required params:
         -queryName => 'mid_tags',
     );
 
-The following are optional:
+In addition to the common optional parameters, the following are also available:
 
     -viewName => 'view1',
+    # filters to be applied to the query
     -filterArray => [
         ['file_active', 'eq', 1],
         ['species', 'neq', 'zebra']
-    ], #allows filters to be applied to the query similar to the labkey Javascript API.
+    ],
+    # query parameters to be applied to the query
     -parameters => [
         ['enddate', '2011/01/01'],
         ['totalDays', 15]
-    ], #allows parameters to be applied to the query similar to the labkey Javascript API.
-    -maxRows => 10  #the max number of rows returned
-    -sort => 'ColumnA,ColumnB'  #sort order used for this query
-    -offset => 100  #the offset used when running the query
-    -columns => 'ColumnA,ColumnB'  #A comma-delimited list of column names to include in the results.
-    -containerFilterName => 'currentAndSubfolders'
-    -debug => 1,    #will result in a more verbose output
-    -loginAsGuest => #will not attempt to lookup credentials in netrc
-    -netrcFile => optional. the location of a file to use in place of a .netrc file.  see also the environment variable LABKEY_NETRC.
-    -requiredVersion => 9.1 #if 8.3 is selected, it will use LabKey's pre-9.1 format for returning the data.  9.1 is the default.  See documentation of LABKEY.Query.ExtendedSelectRowsResults for more detail here:
-        https://www.labkey.org/download/clientapi_docs/javascript-api/symbols/LABKEY.Query.html
-    -useragent => an instance of LWP::UserAgent (if not provided, a new instance will be created)
-    -timeout => timeout in seconds (used when creating a new LWP::UserAgent)
+    ],
+    # max number of rows returned
+    -maxRows => 10,
+    # sort order used for this query
+    -sort => 'ColumnA,ColumnB',
+    # offset used when running the query
+    -offset => 100,
+    # comma-delimited list of column names to include in the results.
+    -columns => 'ColumnA,ColumnB',
+    -containerFilterName => 'currentAndSubfolders',
+    # 9.1 is the default.  See documentation of L<LABKEY.Query.ExtendedSelectRowsResults> for more detail
+    -requiredVersion => 9.1
 
 =head3 NOTE
 
@@ -150,14 +222,6 @@ The following are the minimum required params:
         }],
     );
 
-The following are optional:
-
-    -debug => 1,  #will result in a more verbose output
-    -loginAsGuest => #will not attempt to lookup credentials in netrc
-    -netrcFile => optional. the location of a file to use in place of a .netrc file.  see also the environment variable LABKEY_NETRC.
-    -useragent => an instance of LWP::UserAgent (if not provided, a new instance will be created)
-    -timeout => timeout in seconds (used when creating a new LWP::UserAgent)
-
 =cut
 
 sub insertRows {
@@ -197,14 +261,6 @@ The following are the minimum required params:
         }],
     );
 
-The following are optional:
-
-    -debug => 1,  #will result in a more verbose output
-    -loginAsGuest => #will not attempt to lookup credentials in netrc
-    -netrcFile => optional. the location of a file to use in place of a .netrc file.  see also the environment variable LABKEY_NETRC.
-    -useragent => an instance of LWP::UserAgent (if not provided, a new instance will be created)
-    -timeout => timeout in seconds (used when creating a new LWP::UserAgent)
-
 =cut
 
 sub updateRows {
@@ -241,14 +297,6 @@ The following are the minimum required params:
         }],
     );
 
-The following are optional:
-
-    -debug => 1,  #will result in a more verbose output
-    -loginAsGuest => #will not attempt to lookup credentials in netrc
-    -netrcFile => optional. the location of a file to use in place of a .netrc file.  see also the environment variable LABKEY_NETRC.
-    -useragent => an instance of LWP::UserAgent (if not provided, a new instance will be created)
-    -timeout => timeout in seconds (used when creating a new LWP::UserAgent)
-
 =cut
 
 sub deleteRows {
@@ -282,17 +330,12 @@ The following are the minimum required params:
         -sql => 'select MyDataset.foo, MyDataset.bar from MyDataset',
     );
 
-The following are optional:
+In addition to the common optional parameters, the following are also available:
 
     -maxRows => 10  #the max number of rows returned
     -sort => 'ColumnA,ColumnB'  #sort order used for this query
     -offset => 100  #the offset used when running the query
     -containerFilterName => 'currentAndSubfolders'
-    -debug => 1,  #will result in a more verbose output
-    -loginAsGuest => #will not attempt to lookup credentials in netrc
-    -netrcFile => optional. the location of a file to use in place of a .netrc file.  see also the environment variable LABKEY_NETRC.
-    -useragent => an instance of LWP::UserAgent (if not provided, a new instance will be created)
-    -timeout => timeout in seconds (used when creating a new LWP::UserAgent)
 
 =cut
 
@@ -479,7 +522,7 @@ sub _createUserAgent {
     my %args = @_;
 
     my $ua = LWP::UserAgent->new;
-    $ua->agent("Perl API Client/1.0");
+    $ua->agent("Perl API Client/" . $VERSION);
     $ua->cookie_jar(HTTP::Cookies->new());
 
     if ($args{'-timeout'}) {
@@ -554,10 +597,17 @@ sub _getServerContext {
 
     my $is_guest;
     my $lk_config;
+    my $api_key = $args{-apiKey} || $ENV{LABKEY_APIKEY};
     my $netrc_file = $args{-netrcFile} || $ENV{LABKEY_NETRC};
 
     if ($args{'-loginAsGuest'}) {
         $is_guest = 1;
+    }
+    elsif ($api_key) {
+        $lk_config = {
+            login => 'apikey',
+            password => $args{'-apiKey'}
+        };
     }
     else {
         $lk_config = _readrc($args{-machine}, $netrc_file);
@@ -596,6 +646,9 @@ The 'LABKEY_URL' environment variable can be used instead of supplying a '-baseU
 
 =item *
 The 'LABKEY_NETRC' environment variable can be used to specify an alternate location of a netrc file, if not in the user's home directory.
+
+=item *
+The 'LABKEY_APIKEY' environment variable can be used to specify an apiKey to be used for authentication instead of using a netrc file.
 
 =back
 
