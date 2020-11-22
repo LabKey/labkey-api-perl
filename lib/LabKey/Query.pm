@@ -42,21 +42,6 @@ use FileHandle;
 use File::Spec;
 use File::HomeDir;
 use Carp;
-
-
-# Force all SSL connections to use TLSv1 or greater protocol. This is required for 
-# MacOSX and older Windows workstations.
-# 
-# Credit to @chrisrth on stackoverflow (http://stackoverflow.com/a/20305596)
-# See https://www.labkey.org/issues/home/Developer/issues/details.view?issueId=22146
-# for more information.
-# 
-use IO::Socket::SSL;
-my $context = new IO::Socket::SSL::SSL_Context(
-	SSL_version => 'tlsv1'
-);
-IO::Socket::SSL::set_default_context($context);
-
 use LWP::UserAgent;
 use HTTP::Cookies;
 use HTTP::Request::Common;

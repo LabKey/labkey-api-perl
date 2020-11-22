@@ -31,7 +31,6 @@ Module::Build->new (
         'FileHandle' => 0,
         'URI' => 0,
         'Carp' => 0,
-        'IO::Socket::SSL' => 0
     },
 
     configure_requires => {
