@@ -522,7 +522,7 @@ sub _createUserAgent {
     my %args = @_;
 
     my $ua = LWP::UserAgent->new;
-    $ua->agent("Perl API Client/" . $VERSION);
+    $ua->agent("LabKey Perl API/" . $VERSION);
     $ua->cookie_jar(HTTP::Cookies->new());
 
     if ($args{'-timeout'}) {
